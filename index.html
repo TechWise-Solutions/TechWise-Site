@@ -77,7 +77,8 @@ nav a { color: var(--on-navy-muted); text-decoration: none; font-weight: 500; fo
 nav a:hover { color: var(--on-navy); }
 
 .hero { padding-block: 64px 80px; }
-.hero .wrap { display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: center; }
+.hero .wrap { display: grid; }
+.hero .stack { max-width: 820px; }
 .hero .stack { gap: 22px; }
 .hero .eyebrow { color: var(--on-navy-muted); }
 .hero h1 { color: var(--on-navy); }
@@ -89,13 +90,6 @@ nav a:hover { color: var(--on-navy); }
 .btn.outline-light { border-color: rgba(255,255,255,.55); color: var(--on-navy); }
 .btn.outline-light:hover { border-color: var(--on-navy); }
 
-.ticket { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); border-radius: 10px; padding: 22px; font-family: var(--mono); font-size: 0.88rem; color: var(--on-navy); min-width: 0; }
-.ticket-head { display: flex; justify-content: space-between; gap: 8px; color: var(--on-navy-muted); border-bottom: 1px dashed rgba(255,255,255,.22); padding-bottom: 12px; margin-bottom: 14px; flex-wrap: wrap; }
-.ticket dl { display: grid; grid-template-columns: auto 1fr; gap: 8px 16px; margin: 0; }
-.ticket dt { color: var(--on-navy-muted); }
-.ticket dd { margin: 0; }
-.pill { display: inline-block; padding: 1px 9px; border-radius: 99px; background: var(--orange); color: #1a1205; font-weight: 500; }
-.ticket-note { margin-top: 14px; color: var(--on-navy-muted); font-size: 0.78rem; }
 
 /* Peace of mind statement */
 .promise { padding-block: 84px; }
@@ -150,7 +144,8 @@ nav a:hover { color: var(--on-navy); }
 
 /* Contact on brand navy */
 .contact { background: var(--navy); color: var(--on-navy); border-top: 4px solid var(--orange); }
-.contact .wrap { display: grid; gap: 18px; }
+.contact .wrap { display: grid; grid-template-columns: 1fr 1.15fr; gap: 48px; align-items: start; }
+.contact-intro { gap: 18px; min-width: 0; }
 .contact .eyebrow { color: var(--on-navy-muted); }
 .contact h2 { color: var(--on-navy); }
 .contact p { color: var(--on-navy-muted); }
@@ -158,13 +153,29 @@ nav a:hover { color: var(--on-navy); }
 .email { font-family: var(--mono); font-size: 1.05rem; background: #ffffff; color: var(--navy); padding: 12px 16px; border-radius: 6px; user-select: all; overflow-wrap: anywhere; text-decoration: none; }
 .copy { background: var(--orange); color: #1a1205; border: 0; border-radius: 6px; padding: 13px 18px; font: inherit; font-weight: 600; cursor: pointer; }
 
+.contact-form { background: #ffffff; color: var(--navy); border-radius: 12px; padding: 28px; display: grid; gap: 18px; min-width: 0; box-shadow: 0 18px 40px rgba(5,10,25,.35); }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.field { display: grid; gap: 6px; min-width: 0; }
+.field label { font-weight: 600; font-size: 0.92rem; color: var(--navy); }
+.field .opt { font-weight: 400; color: #5a6680; }
+.field input, .field select, .field textarea { width: 100%; font: inherit; font-size: 1rem; color: var(--navy); background: #f6f8fc; border: 1px solid #c9d2e3; border-radius: 6px; padding: 11px 12px; color-scheme: light; }
+.field textarea { resize: vertical; min-height: 120px; }
+.field input:focus, .field select:focus, .field textarea:focus { outline: 2px solid var(--brand-blue); outline-offset: 1px; border-color: var(--brand-blue); background: #ffffff; }
+.field [aria-invalid="true"] { border-color: #c0392b; }
+.honey { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.submit { justify-self: start; background: var(--orange); color: #1a1205; border: 0; border-radius: 6px; padding: 14px 26px; font: inherit; font-weight: 600; font-size: 1rem; cursor: pointer; }
+.submit:disabled { opacity: .6; cursor: wait; }
+.form-status { margin: 0; font-size: 0.95rem; color: #3a4660; min-height: 1.4em; }
+.form-status.ok { color: #1d6b3a; font-weight: 600; }
+.form-status.err { color: #b0302a; font-weight: 600; }
+
 footer { padding-block: 28px; color: var(--muted); font-size: 0.9rem; }
 footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
 footer .mini { display: flex; align-items: center; gap: 10px; }
 footer .mini img { width: 28px; height: 28px; border-radius: 6px; }
 
 @media (max-width: 860px) {
-  .hero .wrap, .area .wrap { grid-template-columns: 1fr; gap: 36px; }
+  .area .wrap, .contact .wrap { grid-template-columns: 1fr; gap: 36px; }
   .plans, .compare { grid-template-columns: 1fr; }
   .compare-col.partner { border-left: 0; border-top: 3px solid var(--orange); }
   .steps { grid-template-columns: 1fr 1fr; }
@@ -172,6 +183,8 @@ footer .mini img { width: 28px; height: 28px; border-radius: 6px; }
 @media (max-width: 560px) {
   section { padding-block: 52px; }
   .steps { grid-template-columns: 1fr; }
+  .field-row { grid-template-columns: 1fr; }
+  .contact-form { padding: 20px; }
   .promise .wrap { grid-template-columns: 1fr; gap: 20px; }
   .promise img { width: 52px; height: 52px; }
   .logo img { height: 46px; }
@@ -205,18 +218,6 @@ footer .mini img { width: 28px; height: 28px; border-radius: 6px; }
           <a class="btn outline-light" href="#partner">What makes us different</a>
         </div>
       </div>
-      <aside class="ticket" aria-label="Example of a typical service ticket">
-        <div class="ticket-head"><span>Ticket #1042</span><span>Example</span></div>
-        <dl>
-          <dt>Client</dt><dd>12-person dental office, Papillion</dd>
-          <dt>Issue</dt><dd>Front desk PC won't reach imaging server</dd>
-          <dt>Opened</dt><dd>8:14 AM</dd>
-          <dt>Remote fix</dt><dd>Attempted 8:21 AM</dd>
-          <dt>On site</dt><dd>9:05 AM</dd>
-          <dt>Status</dt><dd><span class="pill">Resolved 9:40 AM</span></dd>
-        </dl>
-        <p class="ticket-note">Illustrative example of how a call is handled.</p>
-      </aside>
     </div>
   </section>
 </div>
@@ -350,20 +351,50 @@ footer .mini img { width: 28px; height: 28px; border-radius: 6px; }
         <p class="lede">Most problems get fixed remotely in minutes. When they don't, we drive over. We're based in Omaha and work with offices throughout the area.</p>
       </div>
       <ul class="towns" aria-label="Communities served">
-        <li>Omaha</li><li>Council Bluffs</li><li>Bellevue</li><li>Papillion</li><li>La Vista</li><li>Ralston</li><li>Elkhorn</li><li>Gretna</li><li>Lincoln</li>
+        <li>Omaha</li><li>Council Bluffs</li><li>Bellevue</li><li>Papillion</li><li>La Vista</li><li>Ralston</li><li>Elkhorn</li><li>Gretna</li>
       </ul>
     </div>
   </section>
 
   <section class="contact" id="contact">
     <div class="wrap">
-      <span class="eyebrow">Contact</span>
-      <h2>Let's talk about your business</h2>
-      <p>Book a free IT assessment by emailing Travis Beckman directly. Tell us your business name, how many people use computers, and what's been giving you trouble. You'll hear back within one business day.</p>
-      <div class="email-row">
-        <a class="email" id="email" href="mailto:travis.beckman@techwise-solutions.com?subject=Free%20IT%20assessment">travis.beckman@techwise-solutions.com</a>
-        <button class="copy" id="copy-email" type="button">Copy email</button>
+      <div class="stack contact-intro">
+        <span class="eyebrow">Contact</span>
+        <h2>Let's talk about your business</h2>
+        <p>Book your free IT assessment or ask us anything. Fill out the form and we'll reply within one business day. Prefer email? Write to us directly.</p>
+        <div class="email-row">
+          <a class="email" id="email" href="mailto:info@techwise-solutions.com?subject=Free%20IT%20assessment">info@techwise-solutions.com</a>
+          <button class="copy" id="copy-email" type="button">Copy email</button>
+        </div>
       </div>
+
+      <form class="contact-form" id="contact-form" novalidate>
+        <div class="field-row">
+          <div class="field"><label for="cf-name">Your name</label><input id="cf-name" name="name" type="text" autocomplete="name" required></div>
+          <div class="field"><label for="cf-business">Business name</label><input id="cf-business" name="business" type="text" autocomplete="organization" required></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label for="cf-email">Email</label><input id="cf-email" name="email" type="email" autocomplete="email" required></div>
+          <div class="field"><label for="cf-phone">Phone <span class="opt">(optional)</span></label><input id="cf-phone" name="phone" type="tel" autocomplete="tel"></div>
+        </div>
+        <div class="field">
+          <label for="cf-size">How many people use computers?</label>
+          <select id="cf-size" name="team_size">
+            <option value="">Choose one</option>
+            <option>1 to 9</option>
+            <option>10 to 24</option>
+            <option>25 to 49</option>
+            <option>50 or more</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="cf-message">How can we help?</label>
+          <textarea id="cf-message" name="message" rows="5" required placeholder="What's been giving you trouble, or what would you like reviewed?"></textarea>
+        </div>
+        <input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="submit" id="cf-submit" type="submit">Send message</button>
+        <p class="form-status" id="cf-status" role="status" aria-live="polite"></p>
+      </form>
     </div>
   </section>
 </main>
@@ -378,7 +409,7 @@ footer .mini img { width: 28px; height: 28px; border-radius: 6px; }
 <script>
 document.getElementById('year').textContent = new Date().getFullYear();
 document.getElementById('copy-email').addEventListener('click', function () {
-  var btn = this, text = 'travis.beckman@techwise-solutions.com';
+  var btn = this, text = 'info@techwise-solutions.com';
   function done() { btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = 'Copy email'; }, 2000); }
   function fallback() {
     var r = document.createRange(); r.selectNodeContents(document.getElementById('email'));
@@ -387,6 +418,43 @@ document.getElementById('copy-email').addEventListener('click', function () {
   }
   try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
 });
+(function () {
+  var form = document.getElementById('contact-form');
+  var status = document.getElementById('cf-status');
+  var btn = document.getElementById('cf-submit');
+  var ENDPOINT = 'https://formsubmit.co/ajax/info@techwise-solutions.com';
+  var LIVE = /(^|\.)techwise-solutions\.com$|\.github\.io$/i.test(location.hostname);
+  function setStatus(msg, cls) { status.textContent = msg; status.className = 'form-status' + (cls ? ' ' + cls : ''); }
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var firstBad = null;
+    ['cf-name', 'cf-business', 'cf-email', 'cf-message'].forEach(function (id) {
+      var el = document.getElementById(id);
+      var ok = el.value.trim() !== '' && (el.type !== 'email' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim()));
+      el.setAttribute('aria-invalid', ok ? 'false' : 'true');
+      if (!ok && !firstBad) firstBad = el;
+    });
+    if (firstBad) { setStatus('Please fill in your name, business, a valid email, and a message.', 'err'); firstBad.focus(); return; }
+    if (!LIVE) { setStatus('Preview only: this form sends once the site is live on your domain.', ''); return; }
+    var data = {
+      _subject: 'Website inquiry from ' + document.getElementById('cf-business').value.trim(),
+      _template: 'table',
+      _honey: form.elements['_honey'].value,
+      name: document.getElementById('cf-name').value.trim(),
+      business: document.getElementById('cf-business').value.trim(),
+      email: document.getElementById('cf-email').value.trim(),
+      phone: document.getElementById('cf-phone').value.trim(),
+      team_size: document.getElementById('cf-size').value,
+      message: document.getElementById('cf-message').value.trim()
+    };
+    btn.disabled = true; btn.textContent = 'Sending\u2026'; setStatus('', '');
+    fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(data) })
+      .then(function (r) { return r.json().then(function (j) { if (!r.ok || String(j.success) !== 'true') throw new Error(j.message || 'failed'); }); })
+      .then(function () { form.reset(); setStatus('Thanks! Your message was sent. We\'ll reply within one business day.', 'ok'); })
+      .catch(function () { setStatus('Your message didn\'t go through. Please email info@techwise-solutions.com instead.', 'err'); })
+      .then(function () { btn.disabled = false; btn.textContent = 'Send message'; });
+  });
+})();
 </script>
 </body>
 </html>
