@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Share Your Feedback · TechWise Solutions</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: navy brand header, then a two-column form + live preview on a light page. */
+:root {
+  --navy: #1a2a4a; --navy-deep: #131f38; --brand-blue: #3a72d6; --orange: #f08a24;
+  --on-navy: #ffffff; --on-navy-muted: #b8c6de;
+  --bg: #f5f7fb; --surface: #ffffff; --ink: #16213a; --muted: #4f5c74; --line: #d5dceb;
+  --field: #f6f8fc; --field-line: #c9d2e3; --ok: #1d6b3a; --err: #b0302a; --orange-text: #b35f0c;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #0e1628; --surface: #16213a; --ink: #e8eef9; --muted: #a4b2cb; --line: #2a3a5c; --field: #0f1a2e; --field-line: #34476b; --ok: #5fcf8a; --err: #ff8a80; --orange-text: #f5a24f; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --bg: #0e1628; --surface: #16213a; --ink: #e8eef9; --muted: #a4b2cb; --line: #2a3a5c; --field: #0f1a2e; --field-line: #34476b; --ok: #5fcf8a; --err: #ff8a80; --orange-text: #f5a24f; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.6; }
+img { max-width: 100%; }
+.wrap { max-width: 1080px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2 { font-family: var(--display); line-height: 1.12; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2rem, 4.6vw, 3rem); font-weight: 700; letter-spacing: -0.02em; }
+h2 { font-size: 1.15rem; font-weight: 700; }
+p { margin: 0; max-width: 62ch; }
+a { color: var(--brand-blue); }
+.eyebrow { font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; }
+
+.brand { background: radial-gradient(ellipse 70% 90% at 18% 0%, #22386a 0%, var(--navy) 55%, var(--navy-deep) 100%); color: var(--on-navy); }
+header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 16px; flex-wrap: wrap; }
+.logo img { height: 52px; width: auto; display: block; }
+header a.back { color: var(--on-navy-muted); text-decoration: none; font-weight: 500; font-size: 0.95rem; }
+header a.back:hover { color: var(--on-navy); }
+.intro .wrap { display: grid; gap: 16px; padding-block: 40px 56px; }
+.intro .eyebrow { color: var(--on-navy-muted); }
+.intro h1 .o { color: var(--orange); }
+.intro p { color: var(--on-navy-muted); font-size: 1.12rem; }
+
+main .wrap { display: grid; grid-template-columns: 1.25fr 1fr; gap: 40px; align-items: start; padding-block: 48px 72px; }
+form { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 28px; display: grid; gap: 22px; min-width: 0; }
+fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: 14px; min-width: 0; }
+legend { font-family: var(--display); font-weight: 700; font-size: 1.15rem; padding: 0; margin-bottom: 4px; }
+.hint { color: var(--muted); font-size: 0.92rem; }
+.field { display: grid; gap: 6px; min-width: 0; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+label { font-weight: 600; font-size: 0.93rem; }
+.opt { font-weight: 400; color: var(--muted); }
+input[type=text], input[type=email], textarea { width: 100%; font: inherit; font-size: 1rem; color: var(--ink); background: var(--field); border: 1px solid var(--field-line); border-radius: 6px; padding: 11px 12px; }
+textarea { resize: vertical; min-height: 140px; }
+input:focus, textarea:focus { outline: 2px solid var(--brand-blue); outline-offset: 1px; border-color: var(--brand-blue); }
+[aria-invalid="true"] { border-color: var(--err) !important; }
+
+.choices { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.choice { position: relative; }
+.choice input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.choice span { display: grid; gap: 4px; height: 100%; border: 2px solid var(--field-line); border-radius: 10px; padding: 14px 16px; background: var(--field); }
+.choice b { font-family: var(--display); font-size: 1.02rem; }
+.choice small { color: var(--muted); font-size: 0.88rem; line-height: 1.45; }
+.choice input:checked + span { border-color: var(--orange); background: var(--surface); }
+.choice input:focus-visible + span { outline: 3px solid var(--brand-blue); outline-offset: 2px; }
+.panel { display: grid; gap: 14px; padding: 16px; border-left: 3px solid var(--orange); background: var(--field); border-radius: 0 8px 8px 0; }
+
+.check { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; font-weight: 400; font-size: 0.95rem; }
+.check input { width: 18px; height: 18px; margin-top: 3px; accent-color: var(--orange); }
+.honey { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.submit { justify-self: start; background: var(--orange); color: #1a1205; border: 0; border-radius: 6px; padding: 14px 26px; font: inherit; font-weight: 600; cursor: pointer; }
+.submit:focus-visible { outline: 3px solid var(--brand-blue); outline-offset: 3px; }
+.submit:disabled { opacity: .6; cursor: wait; }
+.status { min-height: 1.4em; font-size: 0.95rem; color: var(--muted); }
+.status.ok { color: var(--ok); font-weight: 600; }
+.status.err { color: var(--err); font-weight: 600; }
+
+aside { position: sticky; top: 24px; display: grid; gap: 14px; min-width: 0; }
+aside .eyebrow { color: var(--muted); }
+.quote-card { background: var(--navy); color: var(--on-navy); border-radius: 12px; padding: 28px; display: grid; gap: 18px; border-top: 4px solid var(--orange); }
+.quote-card .mark { font-family: var(--display); font-size: 3.2rem; line-height: 0.6; color: var(--orange); height: 22px; }
+.quote-card blockquote { margin: 0; font-family: var(--display); font-weight: 500; font-size: 1.22rem; line-height: 1.4; overflow-wrap: anywhere; }
+.quote-card blockquote.empty { color: var(--on-navy-muted); font-style: italic; font-weight: 400; }
+.quote-card .who { display: grid; gap: 2px; border-top: 1px solid rgba(255,255,255,.16); padding-top: 14px; }
+.quote-card .who b { font-weight: 600; }
+.quote-card .who span { color: var(--on-navy-muted); font-size: 0.93rem; }
+aside p { color: var(--muted); font-size: 0.92rem; }
+
+footer { border-top: 1px solid var(--line); padding-block: 24px; color: var(--muted); font-size: 0.9rem; }
+
+@media (max-width: 860px) {
+  main .wrap { grid-template-columns: 1fr; }
+  aside { position: static; order: -1; }
+}
+@media (max-width: 560px) {
+  .field-row, .choices { grid-template-columns: 1fr; }
+  form { padding: 20px; }
+  .logo img { height: 44px; }
+}
+</style>
+</head>
+<body>
+<div class="brand">
+  <header>
+    <div class="wrap">
+      <a class="logo" href="index.html"><img src="logo.png" alt="TechWise Solutions" width="838" height="249"></a>
+      <a class="back" href="index.html">Back to website</a>
+    </div>
+  </header>
+  <section class="intro">
+    <div class="wrap">
+      <span class="eyebrow">For our clients</span>
+      <h1>How has working with TechWise <span class="o">been for you?</span></h1>
+      <p>A few words about your experience helps other business owners decide whether we're the right fit. It takes about two minutes, and you choose exactly how you're credited.</p>
+    </div>
+  </section>
+</div>
+
+<main>
+  <div class="wrap">
+    <form id="fb-form" novalidate>
+      <fieldset>
+        <legend>Your feedback</legend>
+        <div class="field">
+          <label for="fb-quote">What would you tell another business owner about TechWise?</label>
+          <textarea id="fb-quote" name="testimonial" maxlength="800" required placeholder="For example: what problem we solved, how responsive we've been, or what's changed since we started working together."></textarea>
+          <span class="hint" id="fb-count">0 / 800 characters</span>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>How should we credit you?</legend>
+        <div class="choices" role="radiogroup">
+          <label class="choice"><input type="radio" name="credit" id="fb-credit-named" value="Named" checked><span><b>Use my name</b><small>Show your name, position and company with the quote.</small></span></label>
+          <label class="choice"><input type="radio" name="credit" id="fb-credit-anon" value="Anonymous"><span><b>Keep me anonymous</b><small>No name or company. Optionally describe your type of business.</small></span></label>
+        </div>
+
+        <div class="panel" id="panel-named">
+          <div class="field"><label for="fb-name">Full name</label><input id="fb-name" type="text" autocomplete="name"></div>
+          <div class="field-row">
+            <div class="field"><label for="fb-position">Position</label><input id="fb-position" type="text" autocomplete="organization-title" placeholder="Office Manager"></div>
+            <div class="field"><label for="fb-company">Company</label><input id="fb-company" type="text" autocomplete="organization"></div>
+          </div>
+        </div>
+
+        <div class="panel" id="panel-anon" hidden>
+          <p class="hint">Your name and company won't appear anywhere. If you like, tell readers what kind of business you run.</p>
+          <div class="field-row">
+            <div class="field"><label for="fb-industry">Type of business <span class="opt">(optional)</span></label><input id="fb-industry" type="text" placeholder="Dental practice"></div>
+            <div class="field"><label for="fb-city">City <span class="opt">(optional)</span></label><input id="fb-city" type="text" placeholder="Papillion"></div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Your contact details</legend>
+        <p class="hint">So we can thank you and confirm the wording. Never published, even if you chose to be named.</p>
+        <div class="field-row">
+          <div class="field"><label for="fb-contact-name">Your name</label><input id="fb-contact-name" type="text" autocomplete="name"></div>
+          <div class="field"><label for="fb-email">Email</label><input id="fb-email" type="email" autocomplete="email"></div>
+        </div>
+      </fieldset>
+
+      <label class="check" for="fb-permission"><input type="checkbox" id="fb-permission"><span>I give TechWise Solutions permission to publish this feedback on its website and marketing, credited the way I chose above. I can ask for it to be changed or removed at any time.</span></label>
+
+      <input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="submit" id="fb-submit" type="submit">Send feedback</button>
+      <p class="status" id="fb-status" role="status" aria-live="polite"></p>
+    </form>
+
+    <aside aria-label="Preview">
+      <span class="eyebrow">Preview: how it will appear</span>
+      <div class="quote-card">
+        <div class="mark" aria-hidden="true">“</div>
+        <blockquote id="pv-quote" class="empty">Your words will appear here as you type.</blockquote>
+        <div class="who"><b id="pv-line1">Your name</b><span id="pv-line2">Position, Company</span></div>
+      </div>
+      <p>We may trim length or fix typos. If we change more than that, we'll check with you before publishing.</p>
+    </aside>
+  </div>
+</main>
+
+<footer><div class="wrap">© <span id="year">2026</span> TechWise-Solutions LLC · Omaha, Nebraska · info@techwise-solutions.com</div></footer>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  $('year').textContent = new Date().getFullYear();
+  var ENDPOINT = 'https://formsubmit.co/ajax/info@techwise-solutions.com';
+  var LIVE = /(^|\.)techwise-solutions\.com$|\.github\.io$/i.test(location.hostname);
+  var form = $('fb-form'), status = $('fb-status'), btn = $('fb-submit');
+
+  function isNamed() { return $('fb-credit-named').checked; }
+  function v(id) { return $(id).value.trim(); }
+  function credit() {
+    if (isNamed()) {
+      return [v('fb-name') || 'Your name', [v('fb-position'), v('fb-company')].filter(Boolean).join(', ') || 'Position, Company'];
+    }
+    var desc = [v('fb-industry'), v('fb-city')].filter(Boolean).join(', ');
+    return ['TechWise client', desc || 'Name withheld at their request'];
+  }
+  function render() {
+    var q = v('fb-quote'), pq = $('pv-quote');
+    pq.textContent = q || 'Your words will appear here as you type.';
+    pq.className = q ? '' : 'empty';
+    var c = credit(); $('pv-line1').textContent = c[0]; $('pv-line2').textContent = c[1];
+    $('fb-count').textContent = $('fb-quote').value.length + ' / 800 characters';
+    $('panel-named').hidden = !isNamed(); $('panel-anon').hidden = isNamed();
+  }
+  form.addEventListener('input', render);
+  form.addEventListener('change', render);
+  // Copy the credited name into contact name if left blank
+  $('fb-name').addEventListener('blur', function () { if (!v('fb-contact-name') && v('fb-name')) $('fb-contact-name').value = v('fb-name'); });
+  render();
+
+  function setStatus(msg, cls) { status.textContent = msg; status.className = 'status' + (cls ? ' ' + cls : ''); }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var req = ['fb-quote', 'fb-contact-name', 'fb-email'];
+    if (isNamed()) req = req.concat(['fb-name', 'fb-position', 'fb-company']);
+    var all = ['fb-quote', 'fb-contact-name', 'fb-email', 'fb-name', 'fb-position', 'fb-company'];
+    all.forEach(function (id) { $(id).setAttribute('aria-invalid', 'false'); });
+    var bad = null;
+    req.forEach(function (id) {
+      var el = $(id), ok = el.value.trim() !== '';
+      if (ok && el.type === 'email') ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim());
+      if (!ok) { el.setAttribute('aria-invalid', 'true'); if (!bad) bad = el; }
+    });
+    if (bad) { setStatus(isNamed() ? 'Please fill in your feedback, your name, position and company, and your contact details.' : 'Please fill in your feedback and your contact details.', 'err'); bad.focus(); return; }
+    if (!$('fb-permission').checked) { setStatus('Please tick the permission box so we can publish your feedback.', 'err'); $('fb-permission').focus(); return; }
+    if (!LIVE) { setStatus('Preview only: this form sends once it is live on your website.', ''); return; }
+
+    var c = credit();
+    var data = {
+      _subject: 'Client testimonial from ' + v('fb-contact-name') + (isNamed() ? ' (named)' : ' (anonymous)'),
+      _template: 'table',
+      _honey: form.elements['_honey'].value,
+      testimonial: v('fb-quote'),
+      credit_preference: isNamed() ? 'Use my name, position and company' : 'Keep me anonymous',
+      publish_as: c[0] + ' — ' + c[1],
+      contact_name: v('fb-contact-name'),
+      contact_email: v('fb-email'),
+      permission_to_publish: 'Yes, granted ' + new Date().toLocaleDateString('en-US')
+    };
+    btn.disabled = true; btn.textContent = 'Sending…'; setStatus('', '');
+    fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(data) })
+      .then(function (r) { return r.json().then(function (j) { if (!r.ok || String(j.success) !== 'true') throw new Error('failed'); }); })
+      .then(function () { form.reset(); render(); setStatus('Thank you! Your feedback was sent. We\'ll be in touch before anything is published.', 'ok'); })
+      .catch(function () { setStatus('Your feedback didn\'t go through. Please email it to info@techwise-solutions.com instead.', 'err'); })
+      .then(function () { btn.disabled = false; btn.textContent = 'Send feedback'; });
+  });
+})();
+</script>
+</body>
+</html>
