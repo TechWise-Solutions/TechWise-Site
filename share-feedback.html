@@ -36,9 +36,9 @@ p { margin: 0; max-width: 62ch; }
 a { color: var(--brand-blue); }
 .eyebrow { font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; }
 
-.brand { background: radial-gradient(ellipse 70% 90% at 18% 0%, #22386a 0%, var(--navy) 55%, var(--navy-deep) 100%); color: var(--on-navy); }
-header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 16px; flex-wrap: wrap; }
-.logo img { height: 52px; width: auto; display: block; }
+.brand { background: radial-gradient(ellipse 50% 80% at 88% 25%, rgba(58,114,214,.16), rgba(58,114,214,0) 70%), linear-gradient(180deg, var(--navy) 0, var(--navy) 170px, var(--navy-deep) 100%); color: var(--on-navy); }
+header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; flex-wrap: wrap; }
+.logo img { height: 124px; width: auto; display: block; }
 header a.back { color: var(--on-navy-muted); text-decoration: none; font-weight: 500; font-size: 0.95rem; }
 header a.back:hover { color: var(--on-navy); }
 .intro .wrap { display: grid; gap: 16px; padding-block: 40px 56px; }
@@ -94,13 +94,14 @@ aside p { color: var(--muted); font-size: 0.92rem; }
 footer { border-top: 1px solid var(--line); padding-block: 24px; color: var(--muted); font-size: 0.9rem; }
 
 @media (max-width: 860px) {
+  .brand { background: linear-gradient(180deg, var(--navy) 0, var(--navy) 170px, var(--navy-deep) 100%); }
   main .wrap { grid-template-columns: 1fr; }
   aside { position: static; order: -1; }
 }
 @media (max-width: 560px) {
   .field-row, .choices { grid-template-columns: 1fr; }
   form { padding: 20px; }
-  .logo img { height: 44px; }
+  .logo img { height: 84px; }
 }
 </style>
 </head>

@@ -68,10 +68,10 @@ a:focus-visible, .btn:focus-visible, button:focus-visible { outline: 3px solid v
 .band { background: var(--band); border-block: 1px solid var(--line); }
 
 /* Brand band: header + hero on the logo's navy */
-.brand { background: radial-gradient(ellipse 70% 90% at 18% 0%, #22386a 0%, var(--navy) 55%, var(--navy-deep) 100%); color: var(--on-navy); }
-header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 16px; flex-wrap: wrap; }
+.brand { background: radial-gradient(ellipse 50% 80% at 88% 25%, rgba(58,114,214,.16), rgba(58,114,214,0) 70%), linear-gradient(180deg, var(--navy) 0, var(--navy) 170px, var(--navy-deep) 100%); color: var(--on-navy); }
+header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; flex-wrap: wrap; }
 .logo { display: block; line-height: 0; }
-.logo img { height: 56px; width: auto; display: block; }
+.logo img { height: 124px; width: auto; display: block; }
 nav { display: flex; gap: 24px; flex-wrap: wrap; }
 nav a { color: var(--on-navy-muted); text-decoration: none; font-weight: 500; font-size: 0.95rem; }
 nav a:hover { color: var(--on-navy); }
@@ -175,6 +175,7 @@ footer .mini { display: flex; align-items: center; gap: 10px; }
 footer .mini img { width: 28px; height: 28px; border-radius: 6px; }
 
 @media (max-width: 860px) {
+  .brand { background: linear-gradient(180deg, var(--navy) 0, var(--navy) 170px, var(--navy-deep) 100%); }
   .area .wrap, .contact .wrap { grid-template-columns: 1fr; gap: 36px; }
   .plans, .compare { grid-template-columns: 1fr; }
   .compare-col.partner { border-left: 0; border-top: 3px solid var(--orange); }
@@ -187,7 +188,7 @@ footer .mini img { width: 28px; height: 28px; border-radius: 6px; }
   .contact-form { padding: 20px; }
   .promise .wrap { grid-template-columns: 1fr; gap: 20px; }
   .promise img { width: 52px; height: 52px; }
-  .logo img { height: 46px; }
+  .logo img { height: 84px; }
   nav { gap: 16px; }
 }
 </style>
