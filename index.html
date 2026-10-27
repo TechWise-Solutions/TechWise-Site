@@ -3,8 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>TechWise Solutions</title>
+<title>TechWise Solutions | Managed IT Services in Omaha</title>
 <meta name="description" content="TechWise Solutions is Omaha's IT partner for small businesses: proactive, on-site managed IT that keeps your systems running so you don't have to worry.">
+<link rel="canonical" href="https://techwise-solutions.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TechWise Solutions">
+<meta property="og:title" content="TechWise Solutions | Managed IT Services in Omaha">
+<meta property="og:description" content="Not just another MSP, but an IT Partner. Proactive, on-site IT support for Omaha small businesses. Book a free IT assessment.">
+<meta property="og:url" content="https://techwise-solutions.com/">
+<meta property="og:image" content="https://techwise-solutions.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "ProfessionalService", "name": "TechWise Solutions", "legalName": "TechWise-Solutions LLC", "url": "https://techwise-solutions.com/", "logo": "https://techwise-solutions.com/icon-180.png", "image": "https://techwise-solutions.com/og-image.png", "email": "info@techwise-solutions.com", "description": "Managed IT partner for small businesses in the Omaha metro: proactive monitoring, on-site support, Microsoft 365, backups, cybersecurity and compliance support.", "address": {"@type": "PostalAddress", "addressLocality": "Omaha", "addressRegion": "NE", "addressCountry": "US"}, "areaServed": [{"@type": "City", "name": "Omaha"}, {"@type": "City", "name": "Council Bluffs"}, {"@type": "City", "name": "Bellevue"}, {"@type": "City", "name": "Papillion"}, {"@type": "City", "name": "La Vista"}, {"@type": "City", "name": "Ralston"}, {"@type": "City", "name": "Elkhorn"}, {"@type": "City", "name": "Gretna"}], "knowsAbout": ["Managed IT services", "IT support", "Cybersecurity", "Microsoft 365", "Data backup", "HIPAA compliance"]}</script>
+<script data-goatcounter="https://techwise.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -452,7 +464,7 @@ document.getElementById('copy-email').addEventListener('click', function () {
     fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(data) })
       .then(function (r) { return r.json().then(function (j) { if (!r.ok || String(j.success) !== 'true') throw new Error(j.message || 'failed'); }); })
       .then(function () { form.reset(); setStatus('Thanks! Your message was sent. We\'ll reply within one business day.', 'ok'); })
-      .catch(function () { setStatus('Your message didn\'t go through. Please email info@techwise-solutions.com instead.', 'err'); })
+      .catch(function (err) { var m = err && err.message ? err.message : ''; if (/activat/i.test(m)) { setStatus('This form is waiting to be activated. Check the info@techwise-solutions.com inbox for the activation email.', 'err'); } else { setStatus('Your message didn\'t go through. Please email info@techwise-solutions.com instead.' + (m && m !== 'failed' && m !== 'Failed to fetch' ? ' (Details: ' + m + ')' : ''), 'err'); } })
       .then(function () { btn.disabled = false; btn.textContent = 'Send message'; });
   });
 })();

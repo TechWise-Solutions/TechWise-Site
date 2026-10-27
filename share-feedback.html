@@ -104,6 +104,7 @@ footer { border-top: 1px solid var(--line); padding-block: 24px; color: var(--mu
   .logo img { height: 84px; }
 }
 </style>
+<script data-goatcounter="https://techwise.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <div class="brand">
@@ -251,9 +252,9 @@ footer { border-top: 1px solid var(--line); padding-block: 24px; color: var(--mu
     };
     btn.disabled = true; btn.textContent = 'Sending…'; setStatus('', '');
     fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(data) })
-      .then(function (r) { return r.json().then(function (j) { if (!r.ok || String(j.success) !== 'true') throw new Error('failed'); }); })
+      .then(function (r) { return r.json().then(function (j) { if (!r.ok || String(j.success) !== 'true') throw new Error(j.message || 'failed'); }); })
       .then(function () { form.reset(); render(); setStatus('Thank you! Your feedback was sent. We\'ll be in touch before anything is published.', 'ok'); })
-      .catch(function () { setStatus('Your feedback didn\'t go through. Please email it to info@techwise-solutions.com instead.', 'err'); })
+      .catch(function (err) { var m = err && err.message ? err.message : ''; if (/activat/i.test(m)) { setStatus('This form is waiting to be activated. Check the info@techwise-solutions.com inbox for the activation email.', 'err'); } else { setStatus('Your feedback didn\'t go through. Please email it to info@techwise-solutions.com instead.' + (m && m !== 'failed' && m !== 'Failed to fetch' ? ' (Details: ' + m + ')' : ''), 'err'); } })
       .then(function () { btn.disabled = false; btn.textContent = 'Send feedback'; });
   });
 })();
