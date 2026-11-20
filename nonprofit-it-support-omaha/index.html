@@ -87,6 +87,9 @@ header .wrap { display: flex; align-items: center; justify-content: space-betwee
 nav { display: flex; gap: 24px; flex-wrap: wrap; }
 nav a { color: var(--on-navy-muted); text-decoration: none; font-weight: 500; font-size: 0.95rem; }
 nav a:hover { color: var(--on-navy); }
+nav a.nav-phone { color: var(--orange); font-weight: 600; }
+.phone-row { margin-top: 4px; }
+.phone-row a { color: var(--on-navy); font-family: var(--mono); font-size: 1.05rem; }
 
 .hero { padding-block: 64px 80px; }
 .hero .wrap { display: grid; }
@@ -204,6 +207,11 @@ footer .mini img { width: 28px; height: 28px; border-radius: 6px; }
   nav { gap: 16px; }
 }
 
+.cta-grid { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,420px); gap: 40px; align-items: center; }
+.cta-copy { display: grid; gap: 16px; }
+.cta-alt { font-weight: 600; }
+.cta-band .cta-alt a { color: var(--orange); }
+@media (max-width: 860px) { .cta-grid { grid-template-columns: 1fr; } }
 nav a.nav-phone { color: var(--orange); font-weight: 600; }
 .crumbs { font-family: var(--mono); font-size: 0.8rem; color: var(--on-navy-muted); }
 .crumbs a { color: var(--on-navy-muted); }
@@ -250,7 +258,7 @@ nav a.nav-phone { color: var(--orange); font-weight: 600; }
         <h1>IT support for Omaha nonprofits</h1>
         <p class="lede">Every dollar spent fighting technology is a dollar not spent on the mission. TechWise helps Omaha nonprofits use the software discounts they qualify for, protect donor data, and stop losing staff hours to IT problems.</p>
         <div class="actions">
-          <a class="btn orange" href="/#contact">Book a free IT assessment</a>
+          <a class="btn orange" href="#request">Request a free IT check-up</a>
           <a class="btn outline-light" href="#handle">What we handle</a>
         </div>
       </div>
@@ -318,16 +326,22 @@ nav a.nav-phone { color: var(--orange); font-weight: 600; }
     </div>
   </section>
 
-  <section class="cta-band">
-    <div class="wrap">
-      <span class="eyebrow" style="color:var(--on-navy-muted)">Free, no obligation</span>
-      <h2>Find out where your office stands</h2>
-      <p>We'll visit, review your systems and give you a written report with a fixed monthly quote. Serving Omaha, Council Bluffs, Bellevue, Papillion, La Vista, Ralston, Elkhorn and Gretna.</p>
-      <div class="actions">
-        <a class="btn orange" href="/#contact">Book a free IT assessment</a>
-        <a class="btn outline-light" href="tel:+14029792279">Call (402) 979-2279</a>
-        <a class="btn outline-light" href="mailto:info@techwise-solutions.com?subject=Free%20IT%20assessment%20(Nonprofit)">info@techwise-solutions.com</a>
+  <section class="cta-band" id="request">
+    <div class="wrap cta-grid">
+      <div class="cta-copy">
+        <span class="eyebrow" style="color:var(--on-navy-muted)">Free, no obligation</span>
+        <h2>Request your free IT check-up</h2>
+        <p>Leave your name and the best way to reach you. Travis will reply within one business day to set up a time. Serving Omaha, Council Bluffs, Bellevue, Papillion, La Vista, Ralston, Elkhorn and Gretna.</p>
+        <p class="cta-alt">Rather talk now? <a class="track-call" href="tel:+14029792279">Call (402) 979-2279</a></p>
       </div>
+      <form class="contact-form quick-form" id="quick-form" novalidate>
+        <div class="field"><label for="qf-name">Your name</label><input id="qf-name" name="name" type="text" autocomplete="name" required></div>
+        <div class="field"><label for="qf-business">Business name <span class="opt">(optional)</span></label><input id="qf-business" name="business" type="text" autocomplete="organization"></div>
+        <div class="field"><label for="qf-contact">Best email or phone</label><input id="qf-contact" name="contact" type="text" autocomplete="email" required></div>
+        <input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="submit" id="qf-submit" type="submit">Request my free check-up</button>
+        <p class="form-status" id="qf-status" role="status" aria-live="polite"></p>
+      </form>
     </div>
   </section>
 
@@ -351,5 +365,31 @@ nav a.nav-phone { color: var(--orange); font-weight: 600; }
     <a href="/">Home</a>
   </div>
 </footer>
+<script>
+(function () {
+  var form = document.getElementById('quick-form'), status = document.getElementById('qf-status'), btn = document.getElementById('qf-submit');
+  var IND = 'nonprofit';
+  function gc(path) { try { if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({ path: path, title: path, event: true }); } catch (e) {} }
+  document.querySelectorAll('a[href^="tel:"]').forEach(function (a) { a.addEventListener('click', function () { gc('call-click-' + IND); }); });
+  function setStatus(m, c) { status.textContent = m; status.className = 'form-status' + (c ? ' ' + c : ''); }
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = document.getElementById('qf-name'), contact = document.getElementById('qf-contact');
+    var bad = null;
+    [name, contact].forEach(function (el) { var ok = el.value.trim() !== ''; el.setAttribute('aria-invalid', ok ? 'false' : 'true'); if (!ok && !bad) bad = el; });
+    if (bad) { setStatus('Please add your name and an email or phone number.', 'err'); bad.focus(); return; }
+    if (!/(^|\.)techwise-solutions\.com$|\.github\.io$/i.test(location.hostname)) { setStatus('Preview only: this form sends once the page is live.', ''); return; }
+    var biz = document.getElementById('qf-business').value.trim();
+    var data = { _subject: 'Free check-up request (' + IND + ')' + (biz ? ' from ' + biz : ''), _template: 'table', _honey: form.elements['_honey'].value,
+      name: name.value.trim(), business: biz, contact: contact.value.trim(), industry_page: IND };
+    btn.disabled = true; btn.textContent = 'Sending\u2026'; setStatus('', '');
+    fetch('https://formsubmit.co/ajax/info@techwise-solutions.com', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(data) })
+      .then(function (r) { return r.json().then(function (j) { if (!r.ok || String(j.success) !== 'true') throw new Error(j.message || 'failed'); }); })
+      .then(function () { form.reset(); gc('form-sent-' + IND); setStatus('Thanks! Travis will reach out within one business day.', 'ok'); })
+      .catch(function () { setStatus('That didn\u2019t go through. Please call (402) 979-2279 or email info@techwise-solutions.com.', 'err'); })
+      .then(function () { btn.disabled = false; btn.textContent = 'Request my free check-up'; });
+  });
+})();
+</script>
 </body>
 </html>

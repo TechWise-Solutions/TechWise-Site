@@ -390,7 +390,7 @@ footer .mini img { width: 28px; height: 28px; border-radius: 6px; }
       <form class="contact-form" id="contact-form" novalidate>
         <div class="field-row">
           <div class="field"><label for="cf-name">Your name</label><input id="cf-name" name="name" type="text" autocomplete="name" required></div>
-          <div class="field"><label for="cf-business">Business name</label><input id="cf-business" name="business" type="text" autocomplete="organization" required></div>
+          <div class="field"><label for="cf-business">Business name</label><input id="cf-business" name="business" type="text" autocomplete="organization"></div>
         </div>
         <div class="field-row">
           <div class="field"><label for="cf-email">Email</label><input id="cf-email" name="email" type="email" autocomplete="email" required></div>
@@ -407,8 +407,8 @@ footer .mini img { width: 28px; height: 28px; border-radius: 6px; }
           </select>
         </div>
         <div class="field">
-          <label for="cf-message">How can we help?</label>
-          <textarea id="cf-message" name="message" rows="5" required placeholder="What's been giving you trouble, or what would you like reviewed?"></textarea>
+          <label for="cf-message">How can we help? <span class="opt">(optional)</span></label>
+          <textarea id="cf-message" name="message" rows="5" placeholder="What's been giving you trouble, or what would you like reviewed?"></textarea>
         </div>
         <input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off" aria-hidden="true">
         <button class="submit" id="cf-submit" type="submit">Send message</button>
@@ -447,16 +447,16 @@ document.getElementById('copy-email').addEventListener('click', function () {
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var firstBad = null;
-    ['cf-name', 'cf-business', 'cf-email', 'cf-message'].forEach(function (id) {
+    ['cf-name', 'cf-email'].forEach(function (id) {
       var el = document.getElementById(id);
       var ok = el.value.trim() !== '' && (el.type !== 'email' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim()));
       el.setAttribute('aria-invalid', ok ? 'false' : 'true');
       if (!ok && !firstBad) firstBad = el;
     });
-    if (firstBad) { setStatus('Please fill in your name, business, a valid email, and a message.', 'err'); firstBad.focus(); return; }
+    if (firstBad) { setStatus('Please add your name and a valid email.', 'err'); firstBad.focus(); return; }
     if (!LIVE) { setStatus('Preview only: this form sends once the site is live on your domain.', ''); return; }
     var data = {
-      _subject: 'Website inquiry from ' + document.getElementById('cf-business').value.trim(),
+      _subject: 'Website inquiry from ' + (document.getElementById('cf-business').value.trim() || document.getElementById('cf-name').value.trim()),
       _template: 'table',
       _honey: form.elements['_honey'].value,
       name: document.getElementById('cf-name').value.trim(),
@@ -469,7 +469,7 @@ document.getElementById('copy-email').addEventListener('click', function () {
     btn.disabled = true; btn.textContent = 'Sending\u2026'; setStatus('', '');
     fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(data) })
       .then(function (r) { return r.json().then(function (j) { if (!r.ok || String(j.success) !== 'true') throw new Error(j.message || 'failed'); }); })
-      .then(function () { form.reset(); setStatus('Thanks! Your message was sent. We\'ll reply within one business day.', 'ok'); })
+      .then(function () { form.reset(); try { window.goatcounter && window.goatcounter.count && window.goatcounter.count({path:'form-sent-home',title:'form-sent-home',event:true}); } catch (e) {} setStatus('Thanks! Your message was sent. We\'ll reply within one business day.', 'ok'); })
       .catch(function (err) { var m = err && err.message ? err.message : ''; if (/activat/i.test(m)) { setStatus('This form is waiting to be activated. Check the info@techwise-solutions.com inbox for the activation email.', 'err'); } else { setStatus('Your message didn\'t go through. Please email info@techwise-solutions.com instead.' + (m && m !== 'failed' && m !== 'Failed to fetch' ? ' (Details: ' + m + ')' : ''), 'err'); } })
       .then(function () { btn.disabled = false; btn.textContent = 'Send message'; });
   });
